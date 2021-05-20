@@ -1,0 +1,15 @@
+{
+  "name": "wasm-intro-course",
+  "version": "1.0.0",
+  "description": "Link to [course](https://learning.edx.org/course/course-v1:LinuxFoundationX+LFD134x+1T2021/home).",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "wabt": "^1.0.23"
+  }
+}
