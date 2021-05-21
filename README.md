@@ -2,6 +2,8 @@
 
 [Bookmark](https://learning.edx.org/course/course-v1:LinuxFoundationX+LFD134x+1T2021/block-v1:LinuxFoundationX+LFD134x+1T2021+type@sequential+block@2088e5f80e6f4fad8d0ea239f869fc51/block-v1:LinuxFoundationX+LFD134x+1T2021+type@vertical+block@da22a5a3dc964b6a9c35944eb1396f12)
 
+[**WebAssembly instruction set**](https://webassembly.github.io/spec/core/appendix/index-instructions.html)
+
 Link to [course](https://learning.edx.org/course/course-v1:LinuxFoundationX+LFD134x+1T2021/home).
 
 # Tools
