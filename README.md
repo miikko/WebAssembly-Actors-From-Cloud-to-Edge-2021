@@ -1,25 +1,24 @@
 # WebAssembly Actors: From Cloud to Edge 2021
 
-[Bookmark](https://learning.edx.org/course/course-v1:LinuxFoundationX+LFD134x+1T2021/block-v1:LinuxFoundationX+LFD134x+1T2021+type@sequential+block@2088e5f80e6f4fad8d0ea239f869fc51/block-v1:LinuxFoundationX+LFD134x+1T2021+type@vertical+block@da22a5a3dc964b6a9c35944eb1396f12)
-
 [**WebAssembly instruction set**](https://webassembly.github.io/spec/core/appendix/index-instructions.html)
 
 Link to [course](https://learning.edx.org/course/course-v1:LinuxFoundationX+LFD134x+1T2021/home).
 
-# Tools
+## Tools
 
-## [WebAssembly Binary Toolkit](https://github.com/WebAssembly/wabt)
+### [WebAssembly Binary Toolkit](https://github.com/WebAssembly/wabt)
 
-### Installation
+#### Installation
 
 ```
 $ npm i wabt
 ```
-*Commands need to be run through `npx`*
+
+_Commands need to be run through `npx`_
 
 OR download directly from [GitHub](https://github.com/WebAssembly/wabt/releases)
 
-### Contents
+#### Contents
 
 - [**wat2wasm**](https://webassembly.github.io/wabt/doc/wat2wasm.1.html): translate from [WebAssembly text format](https://webassembly.github.io/spec/core/text/index.html) to the [WebAssembly binary format](https://webassembly.github.io/spec/core/binary/index.html)
 - [**wasm2wat**](https://webassembly.github.io/wabt/doc/wasm2wat.1.html): the inverse of wat2wasm, translate from the binary format back to the text format (also known as a .wat)
@@ -34,15 +33,52 @@ OR download directly from [GitHub](https://github.com/WebAssembly/wabt/releases)
 - [**wasm-opcodecnt**](https://webassembly.github.io/wabt/doc/wasm-opcodecnt.1.html): count opcode usage for instructions
 - [**spectest-interp**](https://webassembly.github.io/wabt/doc/spectest-interp.1.html): read a Spectest JSON file, and run its tests in the interpreter
 
-## [Wasmtime](https://github.com/bytecodealliance/wasmtime)
+### [Wasmtime](https://github.com/bytecodealliance/wasmtime)
 
 A standalone runtime for WebAssembly
 
-### Installation
+#### Installation
 
 Linux, macOS, Windows with WSL:
+
 ```
 $ curl https://wasmtime.dev/install.sh -sSf | bash
 ```
 
 OR download directly from [GitHub](https://github.com/bytecodealliance/wasmtime/releases)
+
+## Compiling Rust lib-crates to WebAssembly
+
+**NOTE** In order for a function defined in Rust to be usable in other languages, it needs to have a `#[no_mangle]` annotation and use the `extern` keyword ([More info](https://doc.rust-lang.org/book/ch19-01-unsafe-rust.html#calling-rust-functions-from-other-languages)). 
+
+```
+#[no_mangle]
+extern "C" fn call_from_c() {
+    println!("This function is called from C!");
+}
+```
+
+1. [Install Rust](https://www.rust-lang.org/tools/install)
+1. Add WebAssembly as a Rust compiler target:
+   ```
+   $ rustup target add wasm32-unknown-unknown wasm32-wasi
+   ```
+1. Move to your Rust package in the terminal
+1. Specify lib-crate type in `Cargo.toml`:
+
+   ```
+   # Cargo.toml
+   ...omitted
+
+   [lib]
+   # Used when compiling lib-crates to other languages
+   crate-type = ["cdylib"]
+
+   ...omitted
+   ```
+
+1. Compile to WebAssembly:
+   ```
+   $ cargo build --target wasm32-unknown-unknown
+   ```
+1. Compiled `.wasm` file can be found from `target/wasm32-unknown-unknown/`.
