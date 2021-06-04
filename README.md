@@ -49,7 +49,7 @@ OR download directly from [GitHub](https://github.com/bytecodealliance/wasmtime/
 
 ## Compiling Rust lib-crates to WebAssembly
 
-**NOTE** In order for a function defined in Rust to be usable in other languages, it needs to have a `#[no_mangle]` annotation and use the `extern` keyword ([More info](https://doc.rust-lang.org/book/ch19-01-unsafe-rust.html#calling-rust-functions-from-other-languages)). 
+**NOTE** In order for a function defined in Rust to be usable in other languages, it needs to have a `#[no_mangle]` annotation and use the `extern` keyword ([More info](https://doc.rust-lang.org/book/ch19-01-unsafe-rust.html#calling-rust-functions-from-other-languages)).
 
 ```
 #[no_mangle]
@@ -82,3 +82,7 @@ extern "C" fn call_from_c() {
    $ cargo build --target wasm32-unknown-unknown
    ```
 1. Compiled `.wasm` file can be found from `target/wasm32-unknown-unknown/`.
+
+## Using wasmtime for hosting WebAssembly in Rust
+
+See example projects: [simple-calculator](./chapter-3/rust-host), [interactive-calculator](./chapter-3/interactive-calculator), [area-calculator](./chapter-3/area-calculator).
