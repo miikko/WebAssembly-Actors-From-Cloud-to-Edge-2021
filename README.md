@@ -86,3 +86,20 @@ extern "C" fn call_from_c() {
 ## Using wasmtime for hosting WebAssembly in Rust
 
 See example projects: [simple-calculator](./chapter-3/rust-host), [interactive-calculator](./chapter-3/interactive-calculator), [area-calculator](./chapter-3/area-calculator).
+
+## Using waPC for communication between WebAssembly guest and a (Rust) host
+
+See [example project](./chapter-4/wapc).
+
+In the example project, the communication is established by defining and registering functions in the WebAssembly guest and the Rust host. The guest function is called first which in turn calls the host function. At the end the guest function returns a value (bytes for the greeting string).
+
+### Simplified logical flow
+
+1. The host initiates a function call exchange with the guest by invoking the “guest call” export. This export takes two parameters: the length of the operation name (a string), and the length of the binary payload.
+1. The guest internally allocates two buffers (again, the host does not care how this happens) and then tells the host the linear memory address offsets of the two buffers for the operation name and payload via the “guest request” function.
+1. In response to the “guest request” function call, the host loads the request data for the call into linear memory at the locations indicated by the given pointers.
+1. The guest module then performs the main body of its logic
+   - Optionally, the guest module can then make requests of the host via the “host call” function. The host call function accepts many parameters, including the pointer and byte length of the operation name, payload (message body), and namespace (used for optional disambiguation between operations).
+1. The guest either informs the host where to find a response via the “guest response” function or it informs the host where to find an error via “guest error”.
+1. The guest function returns 0 for failure, 1 for success. Note that success cannot be misinterpreted by default values.
+1. The host inspects the numeric return value, and then retrieves either the success bytes or failure bytes accordingly. The failure bytes can be used by higher-level projects to return robust error structures.
